@@ -6,10 +6,13 @@
     "wiki"
   ],
   "author": "Simon \"Tenry\" Burchert",
+  "main": "dist/main.js",
   "license": "MIT",
   "scripts": {
     "start": "npx ts-node src/main.ts",
-    "docs": "npx typedoc --out ./docs --tsconfig src/tsconfig.json src/*.ts src/**/*.ts"
+    "build": "tsc --build src/tsconfig.json",
+    "docs": "npx typedoc --out ./docs --tsconfig src/tsconfig.json src/*.ts src/**/*.ts",
+    "prepack": "npm run build"
   },
   "bin": "./bin/wiki10",
   "dependencies": {
@@ -24,9 +27,6 @@
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
     "mustache": "^4.2.0",
-    "ts-node": "^10.9.1",
-    "tslib": "^2.6.2",
-    "typescript": "^5.2.2",
     "winston": "^3.10.0",
     "yargs": "^17.7.2"
   },
@@ -38,11 +38,15 @@
     "@types/mustache": "^4.2.2",
     "@types/node": "^20.6.0",
     "@types/yargs": "^17.0.24",
-    "typedoc": "^0.25.1"
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "tslib": "^2.6.2",
+    "typedoc": "^0.25.1",
+    "typescript": "^5.2.2"
   },
   "files": [
     "bin",
-    "src",
+    "dist",
     "template"
   ]
 }

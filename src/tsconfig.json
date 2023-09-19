@@ -18,6 +18,7 @@
   },
   "compilerOptions": {
     // typescript options here
-    "moduleResolution": "Node16"
+    "moduleResolution": "Node16",
+    "outDir": "../dist"
   }
 }
