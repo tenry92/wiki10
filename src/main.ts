@@ -48,7 +48,7 @@ yargs(hideBin(process.argv))
         demandOption: true,
       });
   }, async (argv) => {
-    const projectPath = path.resolve(argv.path);
+    const projectPath = path.resolve(__dirname, argv.path);
     const projectSourceDirectory = new Directory(`${projectPath}/source`);
     const templateDirectory = new Directory('template');
     await templateDirectory.scan();
