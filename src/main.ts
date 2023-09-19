@@ -48,9 +48,9 @@ yargs(hideBin(process.argv))
         demandOption: true,
       });
   }, async (argv) => {
-    const projectPath = path.resolve(__dirname, argv.path);
+    const projectPath = path.resolve(argv.path);
     const projectSourceDirectory = new Directory(`${projectPath}/source`);
-    const templateDirectory = new Directory('template');
+    const templateDirectory = new Directory(path.resolve(__dirname, '../template'));
     await templateDirectory.scan();
     await fs.promises.mkdir(`${projectPath}/source/media`, { recursive: true });
     await templateDirectory.syncTo(projectSourceDirectory);
