@@ -6,7 +6,6 @@
     "wiki"
   ],
   "author": "Simon \"Tenry\" Burchert",
-  "main": "src/main.ts",
   "license": "MIT",
   "scripts": {
     "start": "npx ts-node src/main.ts",
