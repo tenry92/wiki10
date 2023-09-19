@@ -1,0 +1,402 @@
+:root {
+  /* Payne's gray */
+  --theme-neutral: #555B6E;
+  --theme-neutral-bright: color-mix(in srgb, var(--theme-neutral) 70%, white);
+  --theme-neutral-brighter: color-mix(in srgb, var(--theme-neutral) 40%, white);
+  --theme-neutral-brightest: color-mix(in srgb, var(--theme-neutral) 10%, white);
+  --theme-neutral-dark: color-mix(in srgb, var(--theme-neutral) 70%, black);
+  --theme-neutral-darker: color-mix(in srgb, var(--theme-neutral) 40%, black);
+
+  /* Celestial Blue */
+  --theme-primary: #39A0ED;
+  --theme-primary-bright: color-mix(in srgb, var(--theme-primary) 70%, white);
+  --theme-primary-brighter: color-mix(in srgb, var(--theme-primary) 40%, white);
+  --theme-primary-dark: color-mix(in srgb, var(--theme-primary) 70%, black);
+  --theme-primary-darker: color-mix(in srgb, var(--theme-primary) 40%, black);
+
+  /* Aquamarine */
+  --theme-secondary: #36F1CD;
+  --theme-secondary-bright: color-mix(in srgb, var(--theme-secondary) 70%, white);
+  --theme-secondary-brighter: color-mix(in srgb, var(--theme-secondary) 40%, white);
+  --theme-secondary-dark: color-mix(in srgb, var(--theme-secondary) 70%, black);
+  --theme-secondary-darker: color-mix(in srgb, var(--theme-secondary) 40%, black);
+
+  /* Apricot */
+  --theme-yellow: #FFD6BA;
+  --theme-yellow-bright: color-mix(in srgb, var(--theme-yellow) 70%, white);
+  --theme-yellow-brighter: color-mix(in srgb, var(--theme-yellow) 40%, white);
+  --theme-yellow-dark: color-mix(in srgb, var(--theme-yellow) 70%, black);
+  --theme-yellow-darker: color-mix(in srgb, var(--theme-yellow) 40%, black);
+
+  /* Blush */
+  --theme-red: #D36582;
+  --theme-red-bright: color-mix(in srgb, var(--theme-red) 70%, white);
+  --theme-red-brighter: color-mix(in srgb, var(--theme-red) 40%, white);
+  --theme-red-dark: color-mix(in srgb, var(--theme-red) 70%, black);
+  --theme-red-darker: color-mix(in srgb, var(--theme-red) 40%, black);
+
+  --theme-white: #fef;
+  --theme-dark-text: var(--theme-neutral);
+  --theme-bright-text: var(--theme-white);
+  --theme-bright-text-dark: color-mix(in srgb, var(--theme-bright-text) 70%, black);
+
+  --theme-neutral-text: var(--theme-bright-text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+}
+
+body {
+  display: flex;
+  font-family: sans-serif;
+  background: var(--theme-neutral-brighter);
+  line-height: 1.5em;
+}
+
+img {
+  max-width: 100%;
+}
+
+#sidebar {
+  background: var(--theme-neutral);
+  color: var(--theme-neutral-text);
+  padding: 16px;
+  min-height: 100vh;
+  width: 240px;
+}
+
+#sidebar nav ol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style-type: none;
+  padding: 0;
+}
+
+#sidebar nav ol li.active {
+  border-left: 8px solid var(--theme-primary);
+}
+
+#sidebar nav ol li a {
+  color: var(--theme-bright-text);
+  display: inline-block;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+#sidebar nav ol li.active a {
+  color: var(--theme-primary);
+}
+
+#sidebar nav ol li a:hover {
+  color: var(--theme-bright-text-dark);
+}
+
+#sidebar nav ol li.active a:hover {
+  color: var(--theme-primary-bright);
+}
+
+#searchbar {
+  display: flex;
+  flex-direction: column;
+}
+
+#searchbar input[type="search"] {
+  font-size: 16px;
+  border: 1px solid var(--theme-neutral);
+  color: inherit;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+#searchbar input[type="search"]:hover {
+  border: 1px solid var(--theme-neutral-bright);
+}
+
+#searchbar input[type="search"]:focus {
+  border: 1px solid var(--theme-neutral-dark);
+  outline: none;
+}
+
+#searchbar #suggestions {
+  position: relative;
+}
+
+#searchbar #suggestions ul {
+  background: var(--theme-white);
+  border: 1px solid var(--theme-neutral);
+  position: absolute;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  line-height: 2em;
+}
+
+#searchbar #suggestions ul li {
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  color: var(--theme-dark-text);
+}
+
+#searchbar #suggestions ul li.selected {
+  background: var(--theme-neutral);
+  color: var(--theme-bright-text);
+}
+
+#searchbar #suggestions ul li:hover {
+  background: var(--theme-neutral-brighter);
+  color: var(--theme-bright-text);
+}
+
+#searchbar #suggestions ul li a {
+  color: inherit;
+}
+
+main {
+  padding: 16px;
+  margin: 16px;
+  background: white;
+  border-radius: 8px;
+  flex-grow: 1;
+  color: var(--theme-dark-text);
+
+  /* prevent main block to exceed viewport */
+  width: 0px;
+}
+
+main code {
+  background: var(--theme-neutral-brightest);
+}
+
+main :where(pre, figure) {
+  background: var(--theme-neutral-brightest);
+  border: 1px solid var(--theme-neutral-bright);
+}
+
+main figure {
+  margin: 0;
+  padding: 4px;
+}
+
+main figure.thumb {
+  clear: both;
+  float: right;
+
+  & > img {
+    max-width: 300px;
+  }
+}
+
+main table {
+  border-collapse: collapse;
+}
+
+main table th, main table td {
+  border: 1px solid black;
+  padding: 8px 16px;
+}
+
+main h1 {
+  color: var(--theme-neutral);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--theme-neutral);
+  font-size: 32px;
+}
+
+main h2 {
+  color: var(--theme-neutral);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--theme-neutral);
+  font-size: 24px;
+}
+
+main h3 {
+  font-size: 20px;
+}
+
+main a {
+  color: var(--theme-primary);
+  text-decoration: none;
+}
+
+main a:hover {
+  color: var(--theme-primary-bright);
+}
+
+main a:active {
+  color: var(--theme-primary-dark);
+}
+
+main a.broken {
+  color: var(--broken-link);
+}
+
+main a.broken:hover {
+  color: var(--broken-link-hover);
+}
+
+main a.broken:active {
+  color: var(--broken-link-active);
+}
+
+main :where(ul, ol) {
+  padding-left: 16px;
+}
+
+main ul.filetree {
+  --spacing: 1.5rem;
+  --radius: 10px;
+}
+
+main ul.filetree summary {
+  display: block;
+  cursor: default;
+  color: var(--theme-neutral);
+}
+
+main ul.filetree summary:hover {
+  color: var(--theme-neutral-dark);
+  background: var(--theme-neutral-brightest);
+}
+
+main ul.filetree summary::marker {
+  display: none;
+}
+
+main ul.filetree summary:focus {
+  outline: none;
+}
+
+main ul.filetree summary:focus-visible {
+  outline: 1px dotted #000;
+}
+
+main ul.filetree li {
+  display: block;
+  position: relative;
+  padding-left: calc(2 * var(--spacing) - var(--radius) - 2px);
+
+  border-left: 2px solid var(--theme-neutral-brighter);
+}
+
+main ul.filetree li:last-child {
+  border-color: transparent;
+}
+
+main ul.filetree li::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: calc(var(--spacing) / -2);
+  left: -2px;
+  width: var(--spacing);
+  height: var(--spacing);
+  border: solid var(--theme-neutral-brighter);
+  border-width: 0 0 2px 2px;
+}
+
+main ul.filetree > li {
+  padding-left: 0;
+}
+
+main ul.filetree > li:first-child::before {
+  display: none;
+}
+
+main ul.filetree ul {
+  margin-left: calc(var(--radius) - var(--spacing));
+  padding-left: 0;
+}
+
+main ul.filetree summary::before {
+  content: "📁 ";
+}
+
+main ul.filetree details[open] > summary::before {
+  content: "📂 ";
+}
+
+main ul.filetree span.label::before {
+  content: "📄 ";
+}
+
+main details > summary {
+  cursor: default;
+}
+
+main dt {
+  font-weight: bold;
+}
+
+main dd {
+  margin-inline-start: 1em;
+}
+
+main footer {
+  display: flex;
+  justify-content: space-evenly;
+  border-top: 1px solid var(--theme-neutral-bright);
+  color: var(--theme-neutral-bright);
+  margin-top: 16px;
+  padding-top: 0px;
+  font-size: 12px;
+}
+
+.hljs-keyword, .hljs-tag {
+  color: MediumVioletRed;
+}
+
+.hljs-built_in {
+  color: DeepPink;
+}
+
+.hljs-type {
+  color: PaleVioletRed;
+}
+
+.hljs-literal {
+  color: HotPink;
+}
+
+.hljs-number {
+  color: DodgerBlue;
+}
+
+.hljs-regexp, .hljs-string {
+  color: Firebrick;
+}
+
+.hljs-char.escape {
+  color: OrangeRed;
+}
+
+.hljs-subst {
+  color: MediumSlateBlue;
+}
+
+.hljs-variable {
+  color: Olive;
+}
+
+.hljs-comment {
+  color: Green;
+}
+
+.hljs-doctag {
+  color: DarkOliveGreen;
+}
+
+.hljs-meta {
+  color: Chocolate;
+}
+
+.hljs-attr, .hljs-title {
+  color: DarkCyan;
+}

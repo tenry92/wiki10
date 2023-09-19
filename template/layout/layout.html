@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="<%= assets %>style.css">
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div id="sidebar">
+      <div id="logo">
+        <img src="<%= assets %>logo.svg" alt="wiki10">
+      </div>
+      <nav>
+        <ol>
+          <% for (const menuItem of menuItems) { %>
+          <li class="<%= menuItem.active ? 'active' : '' %>"><a href="<%= menuItem.link %>"><%= menuItem.label %></a></li>
+          <% } %>
+        </ol>
+      </nav>
+    </div>
+    <main>
+      <div id="searchbar">
+        <input type="search" placeholder="Search" id="search">
+        <div id="suggestions" hidden>
+          <ul>
+            <li class="selected"><a href="#">Unity</a></li>
+            <li class=""><a href="#">Linux</a></li>
+            <li class=""><a href="#">Credit Cards</a></li>
+          </ul>
+        </div>
+      </div>
+      <section id="content">
+        <h1><%= title %></h1>
+        <%- content %>
+      </section>
+      <footer>
+        <% for (const footerItem of footerItems) { %>
+          <div><%= footerItem %></div>
+        <% } %>
+      </footer>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.4.0/dist/mermaid.min.js"></script>
+    <script src="<%= cache %>pages.js"></script>
+    <script src="<%= assets %>wiki10.js"></script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "name": "wiki10",
+  "version": "0.1.0-alpha.1",
+  "description": "Static wiki generation",
+  "keywords": [
+    "wiki"
+  ],
+  "author": "Simon \"Tenry\" Burchert",
+  "main": "src/main.ts",
+  "license": "MIT",
+  "scripts": {
+    "start": "npx ts-node src/main.ts",
+    "docs": "npx typedoc --out ./docs --tsconfig src/tsconfig.json src/*.ts src/**/*.ts"
+  },
+  "bin": "./bin/wiki10",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "fast-xml-parser": "^4.2.7",
+    "highlight.js": "^11.8.0",
+    "js-yaml": "^4.1.0",
+    "markdown-it": "^13.0.1",
+    "markdown-it-attrs": "^4.1.6",
+    "markdown-it-deflist": "^2.1.0",
+    "markdown-it-replace-link": "^1.2.0",
+    "markdown-it-sub": "^1.0.0",
+    "markdown-it-sup": "^1.0.0",
+    "mustache": "^4.2.0",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "winston": "^3.10.0",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.2",
+    "@types/js-yaml": "^4.0.5",
+    "@types/markdown-it": "^13.0.1",
+    "@types/markdown-it-attrs": "^4.1.0",
+    "@types/mustache": "^4.2.2",
+    "@types/node": "^20.6.0",
+    "@types/yargs": "^17.0.24",
+    "typedoc": "^0.25.1"
+  }
+}
