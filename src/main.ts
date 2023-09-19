@@ -5,7 +5,6 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import Builder from './builder';
-import importMediaWikiDump from './import-mediawiki';
 import logger from './logger';
 import Directory from './directory';
 
