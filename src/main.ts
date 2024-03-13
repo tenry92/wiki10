@@ -8,6 +8,10 @@ import Builder from './builder';
 import logger from './logger';
 import Directory from './directory';
 
+import pkg from '../package.json';
+
+logger.info(`${pkg.name} version ${pkg.version}`);
+
 yargs(hideBin(process.argv))
   .option('verbose', {
     alias: 'v',
