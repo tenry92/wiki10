@@ -52,6 +52,8 @@ function highlight(str: string, lang: string, attrs: string) {
       logger.warn('error highlighting code');
       return '';
     }
+  } else {
+    logger.verbose(`hljs language "${lang}" not available`);
   }
 }
 
