@@ -75,3 +75,48 @@ $ npm run docs
 # or:
 $ yarn docs
 ```
+
+## Contributing
+
+### git commit messages
+
+The format for git messages is based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+`<type>` is one of:
+
+- Fix: patching a bug
+- Docs: documentation
+- Chore: update dependencies
+- Other
+
+`<description>` is a short title that describes the applied changes in present
+tense, for example `Add files to package.json`.
+
+Exception to the message format are tagged version updates (see below).
+
+### Bumping version number
+
+After all code targeting the next version is committed, the version number
+(e.g. in package.json) can be updated. For this, use the commands
+`npm|yarn version major|minor|patch`:
+
+- Use `patch`, if bugs were patched or documentation was updated
+- Use `minor`, if new features were introduced
+- Use `major`, if breaking changes were introduced
+
+After the version has been bumped, publish the new package version using
+`npm|yarn publish`.
+
+### Running wiki10 during development
+
+Using the `npx wiki10 ...` commands will fetch the latest published version from
+the npm registry to run. If you are currently developing on wiki10 itself and
+want to run some commands, use `npm start ...` or `yarn start ...` instead.
