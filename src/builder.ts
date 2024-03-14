@@ -2,6 +2,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 import ejs from 'ejs';
+import yaml from 'js-yaml';
 
 import Directory from './directory';
 import Directories from './directories';
@@ -10,6 +11,7 @@ import logger from './logger';
 import FenceRenderer from './fence-renderer';
 import PageRenderer from './page-renderer';
 import packageInfo from './package-info';
+import ProjectConfiguration from './project-configuration';
 
 import plantumlFenceRenderer from './fence-renderers/plantuml-fence-renderer';
 import mermaidFenceRenderer from './fence-renderers/mermaid-fence-renderer';
@@ -49,6 +51,8 @@ export default class Builder {
 
   public readonly publicPagesPath: string;
 
+  public readonly config: ProjectConfiguration;
+
   private directories: Partial<Directories> = {};
 
   private pages: Page[] = [];
@@ -56,6 +60,21 @@ export default class Builder {
   private fenceRenderers: {[format: string]: FenceRenderer} = {};
 
   public constructor(public readonly projectPath: string) {
+    const configFilePath = path.resolve(projectPath, 'config.yaml');
+
+    this.config = {
+      soundfont: '/usr/share/sounds/sf2/FluidR3_GM.sf2',
+    };
+
+    try {
+      fs.statSync(configFilePath);
+      logger.info(`reading configuration from ${configFilePath}`);
+      this.config = Object.assign(this.config, yaml.load(fs.readFileSync(configFilePath, 'utf-8')));
+      this.config.soundfont = path.resolve(projectPath, this.config.soundfont);
+    } catch {
+      logger.verbose(`${configFilePath} does not exist`);
+    }
+
     this.sourcePath = path.resolve(projectPath, 'source');
     this.publicPath = path.resolve(projectPath, 'public');
     this.publicAssetsPath = path.resolve(this.publicPath, 'assets');
@@ -236,7 +255,7 @@ export default class Builder {
           if (fenceRenderer.available && !await fenceRenderer.available()) {
             logger.debug(`fence renderer ${format} not available`);
           } else {
-            await fenceRenderer.generateAssets(info, source, path.resolve(pageCachePath, basename));
+            await fenceRenderer.generateAssets(info, source, path.resolve(pageCachePath, basename), this.config);
           }
         }
       }

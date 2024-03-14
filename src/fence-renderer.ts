@@ -1,5 +1,7 @@
 import MarkdownIt from 'markdown-it';
 
+import ProjectConfiguration from './project-configuration';
+
 export default interface FenceRenderer {
   /**
    * Generate the HTML that is to be included in the document. This usually is
@@ -21,7 +23,7 @@ export default interface FenceRenderer {
    * @param content The actual code content within the fence.
    * @param filePath The base url (without file extension) where a generated file is to be placed.
    */
-  generateAssets?(info: string, content: string, filePath: string): PromiseLike<void>;
+  generateAssets?(info: string, content: string, filePath: string, config?: ProjectConfiguration): PromiseLike<void>;
 
   /**
    * Check whether this fence renderer is available.

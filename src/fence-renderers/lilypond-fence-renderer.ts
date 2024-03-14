@@ -4,6 +4,7 @@ import * as lilypond from '../lilypond';
 import midi2ogg from '../midi2ogg';
 import logger from '../logger';
 import systemCommandExists from '../system-command-exists';
+import ProjectConfiguration from '../project-configuration';
 
 export default {
   async available() {
@@ -20,7 +21,7 @@ export default {
       ['Music', `<audio src="${url}.ogg" controls>`],
     ];
   },
-  async generateAssets(info: string, content: string, filePath: string) {
+  async generateAssets(info: string, content: string, filePath: string, config: ProjectConfiguration) {
     const svg = await lilypond.render(content, lilypond.Format.Svg);
     logger.debug(`writing ${filePath}.svg`);
     await fs.promises.writeFile(`${filePath}.svg`, svg);
@@ -32,7 +33,7 @@ export default {
     logger.info(`written ${filePath}.midi`);
 
     logger.debug(`writing ${filePath}.ogg`);
-    await midi2ogg(`${filePath}.midi`, `${filePath}.ogg`);
+    await midi2ogg(`${filePath}.midi`, `${filePath}.ogg`, {soundfont: config.soundfont});
     logger.info(`written ${filePath}.ogg`);
   },
 };
