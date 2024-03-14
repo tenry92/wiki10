@@ -38,7 +38,7 @@ export default function midi2ogg(midiFile: string, outputFile: string, options: 
 
     logger.debug(`spawning \`${command.join(' ')}\``);
 
-    exec(command.join(' '), error => {
+    exec(command.map(arg => arg?.replaceAll(`'`, `\\'`)).join(' '), error => {
       if (error) {
         reject(error);
       } else {
