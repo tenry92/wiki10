@@ -4,6 +4,7 @@ import { ChildProcess, spawn } from 'node:child_process';
 import logger from './logger';
 import TempFile from './temp-file';
 import TempDir from './temp-dir';
+import systemCommandExists from './system-command-exists';
 
 export enum Format {
   Png = 'png',
@@ -55,6 +56,10 @@ function waitChildProcessClose(childProc: ChildProcess) {
   return new Promise<number>((resolve, reject) => {
     childProc.on('close', resolve);
   });
+}
+
+export function available() {
+  return systemCommandExists('lilypond');
 }
 
 /**

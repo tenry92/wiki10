@@ -3,8 +3,17 @@ import fs from 'node:fs';
 import * as lilypond from '../lilypond';
 import midi2ogg from '../midi2ogg';
 import logger from '../logger';
+import systemCommandExists from '../system-command-exists';
 
 export default {
+  async available() {
+    return await lilypond.available() && systemCommandExists('fluidsynth');
+  },
+  async checkRequirements() {
+    if (!await lilypond.available()) {
+      logger.warn(`lilypond not installed`);
+    }
+  },
   generateHtml(info: string, content: string, url: string): [string, string][] {
     return [
       ['Score', `<img src="${url}.svg" alt="">`],

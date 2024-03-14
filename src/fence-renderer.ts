@@ -22,4 +22,13 @@ export default interface FenceRenderer {
    * @param filePath The base url (without file extension) where a generated file is to be placed.
    */
   generateAssets?(info: string, content: string, filePath: string): PromiseLike<void>;
+
+  /**
+   * Check whether this fence renderer is available.
+   * 
+   * Some renders may be unavailable due to missing system dependencies.
+   */
+  available?(): PromiseLike<boolean>;
+
+  checkRequirements?(): PromiseLike<void>;
 }

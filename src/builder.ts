@@ -81,6 +81,10 @@ export default class Builder {
 
     await this.directories.publicPagesDirectory?.unlinkUnusedFiles();
 
+    for (const fenceRenderer of Object.values(this.fenceRenderers)) {
+      fenceRenderer.checkRequirements && await fenceRenderer.checkRequirements();
+    }
+
     await this.renderModifiedPages();
     await this.writePagesList();
   }
@@ -229,7 +233,11 @@ export default class Builder {
         generatedFiles.forEach(file => file.used = true);
 
         if (generatedFiles.length == 0 || this.forceBuildAssets) {
-          await fenceRenderer.generateAssets(info, source, path.resolve(pageCachePath, basename));
+          if (fenceRenderer.available && !await fenceRenderer.available()) {
+            logger.debug(`fence renderer ${format} not available`);
+          } else {
+            await fenceRenderer.generateAssets(info, source, path.resolve(pageCachePath, basename));
+          }
         }
       }
 
