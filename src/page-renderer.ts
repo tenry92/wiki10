@@ -118,6 +118,8 @@ export default class PageRenderer {
 
   private fenceRenderers: {[format: string]: FenceRenderer} = {};
 
+  private currentPage?: Page;
+
   public constructor() {
     this.md = new MarkdownIt({
       html: true,
@@ -139,6 +141,7 @@ export default class PageRenderer {
   }
 
   public async render(page: Page, env: {}) {
+    this.currentPage = page;
     const source = await this.readSourceFile(page.file);
     let meta: Partial<Frontmatter> | undefined;
 
@@ -214,7 +217,7 @@ export default class PageRenderer {
       const token = tokens[idx];
 
       const hash = hashCode(token.content).toString(16).slice(0, 16);
-      const url = `../cache/${sourceFile.baseName}/${hash}`;
+      const url = `${'../'.repeat(this.currentPage?.level ?? 1)}cache/${sourceFile.baseName}/${hash}`;
 
       // todo: add option to hide source code
       let hideSourceCode = false;
