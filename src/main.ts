@@ -60,6 +60,21 @@ yargs(hideBin(process.argv))
     await templateDirectory.syncTo(projectSourceDirectory);
     logger.info(`${projectPath} initialized`);
   })
+  .command('update-layout [path]', 'update layout files at path', yargs => {
+    return yargs
+      .positional('path', {
+        describe: 'path where to create the project',
+        type: 'string',
+        demandOption: true,
+      });
+  }, async (argv) => {
+    const projectPath = path.resolve(argv.path);
+    const projectLayoutDirectory = new Directory(`${projectPath}/source/layout`);
+    const layoutDirectory = new Directory(path.resolve(__dirname, '../template/layout'));
+    await layoutDirectory.scan();
+    await layoutDirectory.syncTo(projectLayoutDirectory);
+    logger.info(`layout files of ${projectPath} updated`);
+  })
   .middleware(argv => {
     if (argv.verbose > 0) {
       switch (argv.verbose) {
