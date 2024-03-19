@@ -1,3 +1,3 @@
 {{#pages}}
-* [{{namespace}}:{{title}}]({{pagesUrl}}{{url}})
+* [{{resolvedPageTitle}}]({{pagesUrl}}{{url}})
 {{/pages}}

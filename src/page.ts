@@ -33,6 +33,10 @@ export default class Page {
 
   public readonly references = new Set<string>();
 
+  public get resolvedPageTitle() {
+    return `${this.namespace ? this.namespace + ':' : ''}${this.title}`;
+  }
+
   public constructor(public readonly url: string, public readonly file: File) {
     this.title = file.baseName.replaceAll('_', ' ');
     this.level = url.split('/').length;
