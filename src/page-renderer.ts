@@ -19,7 +19,7 @@ import Mustache from 'mustache';
 import File from './file';
 import hashCode from './hash-code';
 import logger from './logger';
-import FenceRenderer from './fence-renderer';
+import FenceRenderer, { FenceRendererInfo, parseFenceInfo } from './fence-renderer';
 import Page from './page';
 import Frontmatter from './frontmatter';
 
@@ -30,7 +30,7 @@ interface MarkdownItExtendedOptions extends MarkdownIt.Options {
 interface GeneratedAssets {
   [filename: string]: {
     format: string;
-    info: string;
+    info: FenceRendererInfo;
     source: string;
   }
 }
@@ -40,14 +40,49 @@ function highlight(str: string, lang: string, attrs: string) {
 
   if (lang && hljs.getLanguage(lang)) {
     try {
+      const fenceInfo = parseFenceInfo(attrs, false);
+
       const highlighted = hljs.highlight(str, { language: lang }).value;
-      const highlightedLines = highlighted.split('\n').slice(0, -1);
+      let highlightedLines = highlighted.split('\n').slice(0, -1);
 
-      const lineNumberDigitCount = highlightedLines.length.toString().length;
+      for (const markedLine of fenceInfo.highlightLines) {
+        const originalLine = highlightedLines[markedLine - 1];
+        highlightedLines[markedLine - 1] = `<mark>${originalLine}</mark>`;
+      }
 
-      return highlightedLines.map((line, index) => {
-        return `<span style="user-select: none; margin: 0 1em; color: #333;" class="linenumber">${(index + 1).toString().padStart(lineNumberDigitCount, ' ')}</span>${line}`;
-      }).join('\n');
+      for (const addedLine of fenceInfo.addedLines) {
+        const originalLine = highlightedLines[addedLine - 1];
+        highlightedLines[addedLine - 1] = `<ins>${originalLine}</ins>`;
+      }
+
+      for (const removedLine of fenceInfo.removedLines) {
+        const originalLine = highlightedLines[removedLine - 1];
+        highlightedLines[removedLine - 1] = `<del>${originalLine}</del>`;
+      }
+
+      if (fenceInfo.numberLines) {
+        const lineNumberDigitCount = highlightedLines.length.toString().length;
+
+        highlightedLines = highlightedLines.map((line, index) => {
+          return `<span style="user-select: none; margin: 0 1em; color: #333;" class="linenumber">${(index + 1).toString().padStart(lineNumberDigitCount, ' ')}</span>${line}`;
+        });
+      }
+
+      const pre = ['pre'];
+
+      if (fenceInfo.id) {
+        pre.push(`id="${fenceInfo.id}"`);
+      }
+
+      if (fenceInfo.cssClasses.length > 0) {
+        pre.push(`class="${fenceInfo.cssClasses.join(' ')}"`);
+      }
+
+      if (fenceInfo.cssStyle) {
+        pre.push(`style="${fenceInfo.cssStyle}`);
+      }
+
+      return `<${pre.join(' ')}><code class="language-${lang}">${highlightedLines.join('\n')}</code></pre>`;
     } catch {
       logger.warn('error highlighting code');
       return '';
@@ -181,26 +216,22 @@ export default class PageRenderer {
       const hash = hashCode(token.content).toString(16).slice(0, 16);
       const url = `../cache/${sourceFile.baseName}/${hash}`;
 
+      // todo: add option to hide source code
       let hideSourceCode = false;
 
-      const fenceInfoParams = token.info.split(/\s+/);
-      let lang = fenceInfoParams[0];
+      const fenceInfo = parseFenceInfo(token.info);
+      const lang = fenceInfo.lang;
 
-      if (lang[0] == '{' && lang.slice(-1) == '}') {
-        lang = lang.slice(1, -1);
-        hideSourceCode = true;
-      }
-
-      if (lang in this.fenceRenderers) {
+      if (lang && lang in this.fenceRenderers) {
         logger.debug(`fence renderer for ${lang} found`);
         const fenceRenderer = this.fenceRenderers[lang];
-        const generatedItems = fenceRenderer.generateHtml(token.info, token.content, url, this.md);
+        const generatedItems = fenceRenderer.generateHtml(fenceInfo, token.content, url, this.md);
 
         if (fenceRenderer.generateAssets) {
           logger.debug(`fence renderer for ${lang} will generate assets`);
           generatedAssets[hash] = {
             format: lang,
-            info: token.info,
+            info: fenceInfo,
             source: token.content,
           };
         } else {

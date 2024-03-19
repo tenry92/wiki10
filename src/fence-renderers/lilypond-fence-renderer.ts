@@ -15,13 +15,13 @@ export default {
       logger.warn(`lilypond not installed`);
     }
   },
-  generateHtml(info: string, content: string, url: string): [string, string][] {
+  generateHtml(info: any, content: string, url: string): [string, string][] {
     return [
       ['Score', `<img src="${url}.svg" alt="">`],
       ['Music', `<audio src="${url}.ogg" controls>`],
     ];
   },
-  async generateAssets(info: string, content: string, filePath: string, config: ProjectConfiguration) {
+  async generateAssets(info: any, content: string, filePath: string, config: ProjectConfiguration) {
     const svg = await lilypond.render(content, lilypond.Format.Svg);
     logger.debug(`writing ${filePath}.svg`);
     await fs.promises.writeFile(`${filePath}.svg`, svg);

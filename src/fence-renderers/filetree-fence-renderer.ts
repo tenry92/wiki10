@@ -3,7 +3,7 @@ import MarkdownIt from 'markdown-it';
 import * as filetreeParser from '../filetree-parser';
 
 export default {
-  generateHtml(info: string, content: string, url: string, md: MarkdownIt): [string, string][] {
+  generateHtml(info: any, content: string, url: string, md: MarkdownIt): [string, string][] {
     const rootItems = filetreeParser.parse(content);
     const output: string[] = [];
 
