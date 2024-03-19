@@ -63,7 +63,7 @@ yargs(hideBin(process.argv))
   .command('update-layout [path]', 'update layout files at path', yargs => {
     return yargs
       .positional('path', {
-        describe: 'path where to create the project',
+        describe: 'path where to update the project',
         type: 'string',
         demandOption: true,
       });
@@ -74,6 +74,21 @@ yargs(hideBin(process.argv))
     await layoutDirectory.scan();
     await layoutDirectory.syncTo(projectLayoutDirectory);
     logger.info(`layout files of ${projectPath} updated`);
+  })
+  .command('update-meta [path]', 'update meta pages at path', yargs => {
+    return yargs
+      .positional('path', {
+        describe: 'path where to update the project',
+        type: 'string',
+        demandOption: true,
+      });
+  }, async (argv) => {
+    const projectPath = path.resolve(argv.path);
+    const projectMetaDirectory = new Directory(`${projectPath}/source/pages/Meta`);
+    const metaDirectory = new Directory(path.resolve(__dirname, '../template/pages/Meta'));
+    await metaDirectory.scan();
+    await metaDirectory.syncTo(projectMetaDirectory);
+    logger.info(`meta pages of ${projectPath} updated`);
   })
   .middleware(argv => {
     if (argv.verbose > 0) {
