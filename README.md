@@ -106,7 +106,7 @@ Exception to the message format are tagged version updates (see below).
 
 After all code targeting the next version is committed, the version number
 (e.g. in package.json) can be updated. For this, use the commands
-`npm|yarn version major|minor|patch`:
+`npm version major|minor|patch` or `yarn version --major|--minor|--patch`:
 
 - Use `patch`, if bugs were patched or documentation was updated
 - Use `minor`, if new features were introduced
