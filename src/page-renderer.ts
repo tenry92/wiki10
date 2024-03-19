@@ -35,7 +35,7 @@ interface GeneratedAssets {
   }
 }
 
-function highlight(str: string, lang: string, attrs: string) {
+function highlight(str: string, lang: string, attrs: string): string {
   logger.verbose(`highlight code block with language "${lang}"`);
 
   if (lang && hljs.getLanguage(lang)) {
@@ -89,6 +89,7 @@ function highlight(str: string, lang: string, attrs: string) {
     }
   } else {
     logger.verbose(`hljs language "${lang}" not available`);
+    return str;
   }
 }
 
