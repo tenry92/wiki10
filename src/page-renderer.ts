@@ -222,6 +222,12 @@ export default class PageRenderer {
       const fenceInfo = parseFenceInfo(token.info);
       const lang = fenceInfo.lang;
 
+      const output: string[] = [];
+
+      if (fenceInfo.title) {
+        output.push(`<p><strong>${fenceInfo.title}</strong></p>`);
+      }
+
       if (lang && lang in this.fenceRenderers) {
         logger.debug(`fence renderer for ${lang} found`);
         const fenceRenderer = this.fenceRenderers[lang];
@@ -238,8 +244,6 @@ export default class PageRenderer {
           logger.debug(`fence renderer for ${lang} will not generate assets`);
         }
 
-        const output: string[] = [];
-
         for (const [title, html] of generatedItems) {
           output.push(`<p><strong>${title}</strong></p><p>${html}</p>`);
         }
@@ -247,17 +251,17 @@ export default class PageRenderer {
         if (!hideSourceCode) {
           output.push(`<details><summary>Source</summary>${defaultFenceRender(tokens, idx, options, env, self)}</details>`);
         }
-
-        return output.join('\n');
-      }
-
-      logger.debug(`no fence renderer for ${lang} found`);
-
-      if (hideSourceCode) {
-        return '';
       } else {
-        return defaultFenceRender(tokens, idx, options, env, self);
+        logger.debug(`no fence renderer for ${lang} found`);
+
+        if (hideSourceCode) {
+          return '';
+        } else {
+          output.push(defaultFenceRender(tokens, idx, options, env, self));
+        }
       }
+
+      return output.join('\n');
     };
   }
 }
