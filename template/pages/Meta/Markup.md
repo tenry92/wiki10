@@ -160,10 +160,6 @@ console.log('Syntax highlighting!');
   </tbody>
 </table>
 
-If you put the language in curly braces (e.g. <code>```{plantuml}</code>),
-the source code will not be rendered. This is useful for languages like plantuml,
-mermaid or chartjs that generate graphics.
-
 ## Lists
 
 <table>
