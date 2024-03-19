@@ -4,6 +4,10 @@
     return;
   }
 
+  const activePage = Object.assign({
+    level: 1,
+  }, window.wiki10.activePage ?? {});
+
   const searchInput = document.getElementById('search');
   const suggestionsBox = document.getElementById('suggestions');
 
@@ -23,7 +27,7 @@
     for (const page of pages) {
       const li = ul.appendChild(document.createElement('li'));
       const a = li.appendChild(document.createElement('a'));
-      a.href = page.filename;
+      a.href = `${'../'.repeat(activePage.level - 1)}${page.filename}`;
       a.textContent = page.title;
     }
   }

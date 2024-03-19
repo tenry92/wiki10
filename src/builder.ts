@@ -227,6 +227,7 @@ export default class Builder {
           `Generated with ${packageInfo.name} ${packageInfo.version} on ${new Date().toString().substring(0, 21)}`,
           `This page was last modified on ${page.file.stats.mtime.toString().substring(0, 21)}`,
         ],
+        activePage: page,
       });
 
       logger.debug(`writing ${outputFilePath}`);

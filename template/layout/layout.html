@@ -42,6 +42,12 @@
     </main>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.4.0/dist/mermaid.min.js"></script>
     <script src="<%= cache %>pages.js"></script>
+    <script>
+      window.wiki10 ??= {};
+      window.wiki10.activePage = {
+        level: <%= activePage.level %>,
+      };
+    </script>
     <script src="<%= assets %>wiki10.js"></script>
   </body>
 </html>
