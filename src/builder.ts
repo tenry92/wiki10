@@ -57,6 +57,8 @@ export default class Builder {
 
   private pages: Page[] = [];
 
+  private categories = new Map<string, Page[]>();
+
   private fenceRenderers: {[format: string]: FenceRenderer} = {};
 
   public constructor(public readonly projectPath: string) {
@@ -186,6 +188,18 @@ export default class Builder {
       pageRenderer.addFenceRenderer(format, fenceRenderer);
     }
 
+    for (const page of this.pages) {
+      await pageRenderer.parseFrontmatter(page, {});
+
+      for (const category of page.categories) {
+        if (!this.categories.has(category)) {
+          this.categories.set(category, []);
+        }
+
+        this.categories.get(category)!.push(page);
+      }
+    }
+
     for (const page of this.pages.filter(page => page.modified)) {
       logger.debug(`rendering ${page.title}`);
 
@@ -199,6 +213,7 @@ export default class Builder {
         cache: cacheUrl,
         pages: this.pages,
         pagesUrl,
+        categories: [...this.categories.entries()].map(([name, pages]) => ({name, pages})),
       });
 
       const render = ejs.render(layoutTemplate, {

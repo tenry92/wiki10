@@ -141,7 +141,7 @@ export default class PageRenderer {
     this.fenceRenderers[format] = renderer;
   }
 
-  public async render(page: Page, env: {}) {
+  public async parseFrontmatter(page: Page, env: {}) {
     this.currentPage = page;
     const source = await this.readSourceFile(page.file);
     let meta: Partial<Frontmatter> | undefined;
@@ -165,6 +165,11 @@ export default class PageRenderer {
         console.error(error);
       }
     }
+  }
+
+  public async render(page: Page, env: {}) {
+    await this.parseFrontmatter(page, env);
+    const source = await this.readSourceFile(page.file);
 
     logger.debug('preprocessing source file (mustache)');
     const preprocessedContent = Mustache.render(source.content, this.makeVariables(page, env));
