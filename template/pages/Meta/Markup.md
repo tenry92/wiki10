@@ -300,54 +300,6 @@ graph TD;
   C-->D;
 ```
 
-```chartjs
-{
-  "type": "bar",
-  "data": {
-    "labels": [
-      "2015", "2016", "2018", "2019", "2020", "2021", "2022"
-    ],
-    "datasets": [
-      {
-        "label": "Gehalt",
-        "data": [
-          2400, 2600, 3750, 4167, 4500, 4693, 5083
-        ]
-      }
-    ]
-  },
-  "options": {
-    "indexAxis": "y",
-    "scales": {
-      "y": {
-        "beginAtZero": true
-      }
-    }
-  }
-}
-```
-
-```chartjs
-{
-  "type": "doughnut",
-  "data": {
-    "labels": [
-      "Miete",
-      "Bargeld"
-    ],
-    "datasets": [
-      {
-        "label": "Ausgaben",
-        "data": [
-          1100,
-          250
-        ]
-      }
-    ]
-  }
-}
-```
-
 ```lilypond
 {
   \clef treble
